@@ -10,11 +10,15 @@ namespace App\Http\Controllers\Api\V1;
 
 
 use App\Http\Controllers\Controller;
+use Dingo\Api\Routing\Helpers;
 
 class UserController extends Controller
 {
+    use Helpers;
     public function index(){
-        return "hello world";
+
+        return $this->response->error('This is an error.', 403);
+        return ['dddddd'];
     }
 
 }
