@@ -19,5 +19,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', function ($api) {
-    $api->get('users/index', 'App\Http\Controllers\Api\V1\UserController@index');
+    $api->post('users/login', 'App\Http\Controllers\Api\V1\UserController@login');
+    $api->post('users/logout', 'App\Http\Controllers\Api\V1\UserController@logout');
 });

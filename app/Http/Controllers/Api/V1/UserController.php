@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\JWTAuth;
 use App\Http\Controllers\Controller;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -17,15 +18,13 @@ use Dingo\Api\Routing\Helpers;
 class UserController extends Controller
 {
     use Helpers;
-    public function index(){
 
-    }
-    //登陆
+    //登录
     public function login( LoginRequest $request, JWTAuth $JWTAuth )
     {
         $credentials = $request->only(['email', 'password']);
         try {
-            $token = $JWTAuth->attempt($credentials);
+            $token = Auth::guard('api')->attempt();
             if(!$token) {
                 throw new AccessDeniedHttpException();
             }
@@ -39,5 +38,9 @@ class UserController extends Controller
                 ]);
 
     }
-
+    //退出登陆
+    public function logout()
+    {
+        return Auth::guard('api')->logout();
+    }
 }
