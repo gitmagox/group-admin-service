@@ -1,5 +1,6 @@
 <?php
 namespace App\Models;
+use App\Traits\PemissionTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 /**
@@ -7,6 +8,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  */
 class AdminUser extends Authenticatable implements JWTSubject
 {
+    use PemissionTrait;
 
     protected $dates = ['delete_at'];
 
@@ -90,62 +92,6 @@ class AdminUser extends Authenticatable implements JWTSubject
             $code = str_pad($code,5,'0',STR_PAD_LEFT);
         }
         return $code;
-    }
-
-    //==================================================pemission===================================//
-
-    /**
-     * Check if user is administrator.
-     *
-     * @return mixed
-     */
-    public function isAdministrator()
-    {
-        return $this->isRole('administrator');
-    }
-
-    /**
-     * Check if user is $role.
-     *
-     * @param string $role
-     *
-     * @return mixed
-     */
-    public function isRole($role)
-    {
-        return $this->roles()->where('slug', $role)->exists();
-    }
-    /**
-     * Check if user in $roles.
-     *
-     * @param array $roles
-     *
-     * @return mixed
-     */
-    public function inRoles($roles = [])
-    {
-        return $this->roles()->whereIn('slug', (array) $roles)->exists();
-    }
-    /**
-     * If visible for roles.
-     *
-     * @param $roles
-     *
-     * @return bool
-     */
-    public function visible($roles)
-    {
-        if (empty($roles)) {
-            return true;
-        }
-
-        $roles = array_column($roles, 'slug');
-
-        if ($this->inRoles($roles) || $this->isAdministrator()) {
-            return true;
-        }
-
-        return false;
     }
 
 }
