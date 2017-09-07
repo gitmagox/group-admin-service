@@ -1,7 +1,6 @@
 <?php
 /*
- * 本地后台机构用户服务
- *
+ * 服务基础
  */
 namespace App\Services\Common;
 
@@ -39,7 +38,7 @@ class BasicService
         throw new BizException( $message );
     }
 
-    
+
 
 
 }
