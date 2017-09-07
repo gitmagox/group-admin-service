@@ -94,8 +94,6 @@ class AdminUser extends Authenticatable implements JWTSubject
 
     //==================================================pemission===================================//
 
-
-
     /**
      * Check if user is administrator.
      *
