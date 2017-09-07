@@ -7,8 +7,9 @@ namespace App\Services\Local;
 
 use App\Exceptions\BizException;
 use App\Exceptions\SystemError;
+use App\Services\Common\BasicService;
 
-class UserService
+class UserService extends BasicService
 {
 
 }
