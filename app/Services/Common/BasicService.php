@@ -9,7 +9,8 @@ use App\Exceptions\SystemError;
 
 class BasicService
 {
-    public  $masterModel;
+    static  $masterModel;
+
 
     /**
      * 是否存在ID
@@ -17,7 +18,21 @@ class BasicService
      */
     public function isOurs( $id )
     {
-
+        $check = self::$masterModel->where( self::$masterModel->getKeyname, $id )->exists();
+        if( $check ){
+            return $check;
+        }
+    }
+    /**
+     * id 数组是否都存在
+     * @param $id
+     */
+    public function inOurs( $ids )
+    {
+        $check = self::$masterModel->whereIn( self::$masterModel->getKeyname, $ids )->exists();
+        if( $check ){
+            return $check;
+        }
     }
 
     /**
