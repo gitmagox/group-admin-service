@@ -18,7 +18,7 @@ class BasicService
      */
     public function isOurs( $id )
     {
-        $check = self::$masterModel->where( self::$masterModel->getKeyname, $id )->exists();
+        $check = self::$masterModel->where( self::$masterModel->getKeyname(), $id )->exists();
         if( $check ){
             return $check;
         }
@@ -29,7 +29,7 @@ class BasicService
      */
     public function inOurs( $ids )
     {
-        $check = self::$masterModel->whereIn( self::$masterModel->getKeyname, $ids )->exists();
+        $check = self::$masterModel->whereIn( self::$masterModel->getKeyname(), $ids )->exists();
         if( $check ){
             return $check;
         }
@@ -45,7 +45,7 @@ class BasicService
     }
 
     /**
-     * 抛普能异常
+     * 抛普通异常
      * @param $message
      */
     public function bizError( $message )
