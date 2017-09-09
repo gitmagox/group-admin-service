@@ -10,5 +10,4 @@ use App\Traits\ExceptionHelps;
 class BasicService
 {
     use ExceptionHelps,ModelHelps;
-
 }
