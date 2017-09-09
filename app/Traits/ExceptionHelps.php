@@ -1,7 +1,7 @@
 <?php
 /**
- * 系统异常处理助手函数
- * Author:葛艳
+ * ExceptionHelps
+ * Author:Magox
  */
 namespace App\Traits;
 
