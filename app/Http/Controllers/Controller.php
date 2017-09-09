@@ -14,4 +14,5 @@ class Controller extends BaseController
         DispatchesJobs,
         ValidatesRequests,
         ExceptionHelps;
+    
 }
