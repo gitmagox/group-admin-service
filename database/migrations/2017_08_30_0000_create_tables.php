@@ -15,16 +15,44 @@ class CreateTables extends Migration
     {
         $connection =  config('database.default');
 
+        //服务平台表
+        Schema::connection($connection)->create('service_platform', function (Blueprint $table) {
+            $table->increments('id')->comment('平台ID');
+            $table->string('name',50)->comment('平台名字');
+            $table->string('slug', 100)->unique()->comment('平台标识');
+            $table->timestamps();
+        });
+        //服务表
+        Schema::connection($connection)->create('service_or_controller', function (Blueprint $table) {
+            $table->increments('id')->comment('服务或控制器ID');
+            $table->string('name',50)->comment('服务或控制器名字');
+            $table->string('slug', 100)->unique()->comment('服务标识');
+            $table->unsignedInteger('money',true)->comment('权限财富值');
+            $table->unsignedInteger('max_money',true)->comment('最大权限财富值');
+            $table->timestamps();
+        });
+        //接口或方法表
+        Schema::connection($connection)->create('api_or_method', function (Blueprint $table) {
+            $table->increments('id')->comment('接口或方法ID');
+            $table->unsignedInteger('service_id',true)->comment('所属服务或控制器');
+            $table->string('name',50)->comment('接口或方法名字');
+            $table->string('slug', 100)->unique()->comment('接口或方法标识');
+            $table->unsignedInteger('money',true)->comment('接口权限财富值');
+            $table->timestamps();
+        });
+        //角色与服务多对多关系
+        Schema::connection($connection)->create('role_service', function (Blueprint $table) {
+            $table->unsignedInteger('role_id')->comment('角色ID');
+            $table->unsignedInteger('service_id')->comment('Api的ID');
+            $table->index(['role_id', 'service_id']);
+            $table->timestamps();
+        });
+
         //后台用户表
         Schema::connection($connection)->create('admin_user', function (Blueprint $table) {
             $table->increments('id')->comment('ID');
             $table->string('username', 50)->nullable()->comment('用户名');
-            $table->string('nikename', 50)->comment('用户昵称');
             $table->string('password', 100)->comment('密码');
-            $table->string('name',50)->comment('姓名');
-            $table->string('avatar')->nullable()->comment('头像');
-            $table->string('mobile',50)->nullable()->comment('手机');
-            $table->string('wx',50)->nullable()->comment('微信');
             $table->string('remember_token', 100)->nullable()->comment('token');
             $this->timesopen($table);//生效
             $table->string('invitation_code',50)->unique()->comment('唯一邀请码');
@@ -98,6 +126,11 @@ class CreateTables extends Migration
     public function down()
     {
         $connection = config('database.default');
+        Schema::connection($connection)->dropIfExists('service_platform');
+        Schema::connection($connection)->dropIfExists('service_or_controller');
+        Schema::connection($connection)->dropIfExists('api_or_method');
+        Schema::connection($connection)->dropIfExists('role_service');
+
         Schema::connection($connection)->dropIfExists('admin_user');
         Schema::connection($connection)->dropIfExists('admin_role_user');
         Schema::connection($connection)->dropIfExists('admin_role');
