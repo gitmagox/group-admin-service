@@ -27,8 +27,8 @@ class CreateTables extends Migration
             $table->increments('id')->comment('服务或控制器ID');
             $table->string('name',50)->comment('服务或控制器名字');
             $table->string('slug', 100)->unique()->comment('服务标识');
-            $table->unsignedInteger('money',true)->comment('权限财富值');
-            $table->unsignedInteger('max_money',true)->comment('最大权限财富值');
+            $table->unsignedInteger('money')->comment('权限财富值');
+            $table->unsignedInteger('max_money')->comment('最大权限财富值');
             $table->timestamps();
         });
         //接口或方法表
@@ -37,12 +37,13 @@ class CreateTables extends Migration
             $table->unsignedInteger('service_id',true)->comment('所属服务或控制器');
             $table->string('name',50)->comment('接口或方法名字');
             $table->string('slug', 100)->unique()->comment('接口或方法标识');
-            $table->unsignedInteger('money',true)->comment('接口权限财富值');
+            $table->unsignedInteger('money')->comment('接口权限财富值');
             $table->timestamps();
         });
         //角色与服务多对多关系
         Schema::connection($connection)->create('role_service', function (Blueprint $table) {
             $table->unsignedInteger('role_id')->comment('角色ID');
+            $table->unsignedInteger('service_id')->comment('Api的ID');
             $table->unsignedInteger('service_id')->comment('Api的ID');
             $table->index(['role_id', 'service_id']);
             $table->timestamps();
