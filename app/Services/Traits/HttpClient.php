@@ -29,17 +29,20 @@ trait HttpClient
                 $query_key='form_params';
                 break;
             case 'PUT':
-                $query_key='body';
+                $query_key='form_params';
                 break;
             case 'DELETE':
-                $query_key='body';
+                $query_key='form_params';
                 break;
         }
 
         $response = $client->request($method, $api_url, [
-                $query_key => $request_data
+                $query_key => $request_data,
+                'headers'  =>[
+                    //自定义头
+                ]
             ]
-        )->withHeader('x-api-sign',$sign);
+        );
 
         $result = json_decode($response->getBody()->getContents(), true);
 
